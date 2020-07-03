@@ -7,7 +7,7 @@
 \usepackage[colorinlistoftodos]{todonotes}
  
  
-\title{INTERRUPCIONES}
+\title{Interrupciones}
 \author{Andrés Felipe Flórez Gil \\ CC. 1017269766}
 
 \date{\today}
@@ -15,35 +15,103 @@
 \begin{document}
 \maketitle
 
-En programación una interrupción es un mecanismo a través del cual se envía una señal al microprocesador para indicarle que debe detener la ejecución del programa actual para ejecutar otro proceso prioritario. Puede suceder como un evento asíncrono y una vez que se ejecuta se devuelve al programa anterior.[1]
+En programación una interrupción es un mecanismo a través del cual se
+envía una señal al microprocesador para indicarle que debe detener la
+ejecución del programa actual para ejecutar otro proceso prioritario.
+Puede suceder como un evento asíncrono y una vez que se ejecuta se
+devuelve al programa anterior.[1]\\
+Hablando históricamente de las interrupciones se puede destacar el
+avance
+en ejecución y manejo que han tenido con el paso del tiempo. Existe una
+técnica antigua de interrupción llamada 'Polling', cuyo mecanismo se
+basa
+en un sondeo continuo, donde el microcontrolador es el encargado de
+verificar los estados de los eventos, lo que trae como consecuencia que
+no puedan ser monitoreados los datos constantemente. Esta técnica no
+resulta muy útil por ejemplo, en una aplicación multitareas donde lo que
+se busca es versatilidad para que no se vean interrumpidos todos los
+programas en ejecución. Debido a esto fue necesario encontrar nuevas
+maneras de ejecutar estas operaciones y por ello la importancia de la
+implementación de otros mecanismos de interrupciones como el Daisy-chain
+que se refiere a conexión en cadena de diferentes dispositivos en orden
+decreciente de prioridad. La señal emitida sólo pasará a los
+dispositivos
+siguientes en el orden establecido si el anterior no solicita el
+servicio
+del procesador para llevar a cabo la nueva operación. Es evidente como
+el
+avance en materia de procesamiento de interrupciones para hacer frente a
+nuevas necesidades marca una importante evolución y mejora de los
+programas, como tenemos la capacidad de cada vez hacerlos más eficaces y
+mejorar su experiencia. [3][5] \\
 
-Las interrupciones se pueden clasificar según cómo se genere la señal para ejecutar la interrupción y existen diferentes tipos. De manera general se puede clasificar con síncronas y asíncronas, siendo las primeras provocadas por la ejecución de un programa dentro de la CPU, son internas al programa; y las segundas son provocadas por eventos externos al programa notificando al sistema operativo a cerca de algún cambio en el ambiente de operatividad y ejecutando una interacción para tomar una decisión respecto al cambio que no se pudo tomar autónomamente por el sistema operativo. De manera específica  se clasifica las interrupciones como:
--Interrupciones de Hardware:
+Las interrupciones se pueden clasificar según cómo se genera la señal
+para ejecutar la interrupción y existen diferentes tipos. De manera
+general se puede clasificar con síncronas y asíncronas, siendo las
+primeras provocadas por la ejecución de un programa dentro de la CPU,
+son
+
+internas al programa; y las segundas son provocadas por eventos externos
+al programa notificando al sistema operativo a cerca de algún cambio en
+el ambiente de operatividad y ejecutando una interacción para tomar una
+decisión respecto al cambio que no se pudo tomar autónomamente por el
+sistema operativo. De manera específica  se clasifica las interrupciones
+como: \\
+
+-Interrupciones internas de Hardware:
+Las interrupciones internas son generadas por ciertos eventos que
+ocurren durante la ejecución. Este tipo de interrupciones son manejadas
+en un cien por ciento  por el hardware y, no es posible modificarlas a
+través del software. \\
+
+-Interrupciones externas de Hardware:
+Son enviadas por dispositivos periféricos o por coprocesadores. No es
+posible desactivar este tipo de interrupciones y, no son mandadas
+directamente a la CPU sino a circuito integrado especializado únicamente para tratar estas interrupciones.\\
+
 -Interrupciones de Software:
+Este tipo de interrupciones pueden ser activadas directamente por el ensamblador o generadas por un mismo programa en ejecución.\\
 
-
-
+Las interrupciones ingresan como una señal proveniente del periférico la
+cual le dice a nuestro microcontrolador que debe parar su ejecución en
+curso al terminar la última instrucción en ejecución después de esto
+guarda el estado actual (PC y REGISTROS)en la pila y se obtiene el pc de
+la subrutina correspondiente a esta interrupción en caso de llegar varias
+interrupciones a la vez se maneja un sistema de prioridad el cual va
+decidir cual subrutina seguirá en curso, después de obtener el pc de la
+subrutina correspondiente se quita el bit correspondiente a la entrada a
+modo de interrupción para no quedar en ciclo infinito  y procede a
+realizar la máquina de estado con las instrucciones de la subrutina en
+marcha al acabar se ejecuta la instrucción RTI la cual vuelve a cargar
+el punto en el cual estaba el programa (PC y REGISTROS) desde el stack,
+de esta manera el microcontrolador maneja las interrupciones entrantes.
 \\
 
-Las interrupiones ingresan como una señal proveniente del periférico la cual le dice a nuestro micrcontrolador que debe parar su ejecucion en curso al terminar la ultima instruccion en ejecuccion despues de esto guarda el estado actual (PC y REGISTROS)en la pila y se obtiene el pc de la subrutina correspondiente a esta interrupcion en caso de llegar varias interupciones a la vez se maneja un sistema de prioridad el cual va decidir cual subrutina seguira en curso, despues de obtener el pc de la subrutina correspondiente se quita el bit correspondiente a la entrada a modo de interrupcion para no quedar en ciclo infinito  y procede a realizar la maquina de estado con las insstrucciones de la subrutina en marcha al acabar se ejecuta la instruccion RTI la cual vuleve a cargar el punto en el cual estaba el progama (PC y REGISTROS) desde el stack, de esta manera el microcontrolador maneja las interrupciones entrantes.
-\\
-Las interrupciones implementadas desde de software  son usada en los programas para hacer uso de perifericos o funciones del sistema operativo estos programas se pueden auto interrumpir para dar paso a la lectura de un disco o la ejecucion de otro proceso en el sistema operativo estas interrupciones se pueden hacer tambien llamando interrupiones directamente a la bio, estas interrupciones en software son mucho mas veloces cuando son implementadas directamente en la bios mediante ensamblador pero  necesitando conocimiento mas profundos en programacion de bajo nivel con ensablador en cambio las interrupciones que son implementadas sobre el sistema operativo son masss lentas pero son mas comodas y faciles de usar, estas interrupciones echas sobre el sistema operativo son echas con lenguajes de programacion de alto nivel como puede ser c pero tambien van a cambiar dependiendo del compilador y el hadware ya que si cambia el hardware el protocolo de instrucciones puede cambiar tambien el compilador el cual la ayuda entre lo que escribimo y como lo lleva a bajo nivel todo esto pero para solucionar estos problemas en gran parte se hace uso de convenios entre los compiladores para hacer una base en lenguaje de alto nivel para tratar estas interrupciones en este lenguaje esto mismo sucede con los diferentes lenguajes de progrmacion los cuales algunos son mas eficiente o faciles para trabajar a la hora de interrupciones que otros
+Las interrupciones implementadas desde de software  son usadas en los programas para hacer uso de periféricos o funciones del sistema operativo estos programas se pueden auto interrumpir para dar paso a la
+lectura de un disco o la ejecución de otro proceso en el sistema
+operativo. Estas interrupciones se pueden hacer también llamando interrupciones directamente a la bio, estas interrupciones en software son mucho más veloces cuando son implementadas directamente en la bios mediante ensamblador pero  necesitando conocimiento más profundos en programación de bajo nivel con ensamblador, por el contrario las
+interrupciones que son implementadas sobre el sistema operativo son más lentas pero son más cómodas y fáciles de usar, estas interrupciones hechas sobre el sistema operativo son hechas con lenguajes de programación de alto nivel como puede ser C pero también van a cambiar dependiendo del compilador y el hardware, ya que, si este último cambia, el protocolo de instrucciones también puede cambiar el compilador el cual ayuda entre lo que se escribe y cómo lo lleva a bajo nivel. Para
+darle solución  a estos procesos  en gran parte se hace uso de convenios entre los compiladores para hacer una base en lenguaje de alto nivel para tratar estas interrupciones. Esto mismo sucede con los diferentes lenguajes de programación, en los cuales se observa que algunos son más eficientes que otros o fáciles para trabajar con interrupciones.\\
 
+En conclusión las interrupciones y el procesamiento de las mismas han ayudado y siguen ayudando ampliamente a la informática a través de diferentes mecanismos, atendiendo distintos tipos de necesidades que se presentan en determinada situación. Una de sus más destacadas utilidades es que ayudan a disminuir el tiempo de espera en el cual se puede leer una señal externa al programa comparado al sistema anterior. Con esto trae como beneficio, con gran cantidad de periféricos, mejorar la capacidad de responder de manera veloz los requerimientos de servicios de los programas. 
 
-\begin{thebibliography}{X}
-\bibitem{Alc}http://www.ciens.ucv.ve:8080/genasig/sites/organizacion-del-comp-II/archivos/Interrupciones.pdf
+\title{Bibliografia}
 
+\bibitem{Alc} [1] http://www.ciens.ucv.ve:8080/genasig/sites/organizacio n-del-comp-II/archivos/Interrupciones.pdf
+\bibitem{Alc} [2]http://index-of.co.uk/Winasm-studio-tutorial/manual2-8086.pdf
+\bibitem{Alc} [3]https://es.wikipedia.org/wiki/Interrupcion
 
-\bibitem{Alc}http://index-of.co.uk/Winasm-studio-tutorial/manual2-8086.pdf
+\bibitem{Alc} [4]https://aprendiendoarduino.wordpress.com/2016/11/13/interrupciones/
+\bibitem{Alc} [5] http://www3.fi.mdp.edu.ar/electrica/opt_archivos/arduino/Manejo_de_Interrupciones.pdf
 
-\bibitem{Alc}https://es.wikipedia.org/wiki/Interrupci%C3%B3n
+\bibitem{Alc} [6] https://books.google.com.co/books?id=I3w5DwAAQBAJ&pg=P
+A11&dq=microprocesadores&hl=es&sa=X&ved=2ahUKEwjCu7PKiqvqAhWIdN8KHSqlA5A
+Q6AEwBHoECAUQAg#v=onepage&q=microprocesadores&f=false
 
-\bibitem{Alc}https://aprendiendoarduino.wordpress.com/2016/11/13/interrupciones/
-\bibitem{Alc}https://sites.google.com/site/lgiao2018/unidad-1/1-4-el-concepto-de-interrupciones
-\bibitem{Alc}https://books.google.com.co/books?id=I3w5DwAAQBAJ&pg=PA11&dq=microprocesadores&hl=es&sa=X&ved=2ahUKEwjCu7PKiqvqAhWIdN8KHSqlA5AQ6AEwBHoECAUQAg#v=onepage&q=microprocesadores&f=false
-\bibitem{Alc}https://www.slideshare.net/matrix1979/interrupciones-53999787
-\bibitem{Alc}http://www.fdi.ucm.es/profesor/jjruz/WEB2/Temas/Curso05_06/EC9.pdf
-\bibitem{Alc}http://mimosa.pntic.mec.es/~flarrosa/raton.pdf
-\bibitem{Alc}http://www.angelfire.com/al4/pc/int.htm
-\end{thebibliography}
+\bibitem{Alc} [7] http://www.fdi.ucm.es/profesor/jjruz/WEB2/Temas/Curso05_06/EC9.pdf
+
+\bibitem{Alc} [8] http://mimosa.pntic.mec.es/~flarrosa/raton.pdf
+
+\bibitem{Alc} [9]http://www.angelfire.com/al4/pc/int.htm
+\end{Bibliografia}
 \end{document}
